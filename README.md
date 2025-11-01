@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🪰 모기 퇴치 대작전 (Mosquito Reflex Test)
 
-## Getting Started
+순발력 테스트 게임 - 1분 동안 화면에 날아다니는 곤충들을 잡아 점수를 얻는 게임입니다.
 
-First, run the development server:
+## 🎮 게임 규칙
+
+- **게임 시간**: 1분 (60초)
+- **곤충 종류**:
+  - 🦟 일반 모기: +1점
+  - 🩸 말라리아 모기: +3점
+  - 🐝 벌: -5점
+- **난이도**: 쉬움 / 보통 / 어려움 (속도와 출현 빈도가 다름)
+
+## 🚀 실행 방법
+
+### 프론트엔드 실행
 
 ```bash
+# 의존성 설치
+npm install
+
+# 개발 서버 실행
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+프론트엔드는 `http://localhost:3000`에서 실행됩니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 백엔드 실행
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# 백엔드 디렉토리로 이동
+cd backend
 
-## Learn More
+# 의존성 설치
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# 개발 서버 실행
+npm run start:dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+백엔드는 `http://localhost:3001`에서 실행됩니다.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 프로젝트 구조
 
-## Deploy on Vercel
+```
+gdgoc_game_front/
+├── src/
+│   ├── app/
+│   │   ├── page.tsx          # 홈 화면
+│   │   └── game/
+│   │       └── page.tsx      # 게임 화면
+│   ├── components/
+│   │   ├── GameBoard.tsx     # 게임 보드 (곤충 이동)
+│   │   ├── GameInfo.tsx      # 게임 정보 (시간, 점수)
+│   │   └── RankingBoard.tsx  # 랭킹 보드
+│   └── utils/
+│       └── api.ts            # API 호출 함수
+└── backend/
+    └── src/
+        ├── main.ts           # 서버 진입점
+        ├── app.module.ts     # Nest.js 모듈
+        └── score/
+            ├── score.controller.ts  # API 컨트롤러
+            ├── score.service.ts      # 비즈니스 로직
+            └── score.model.ts        # 데이터 모델
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛠 기술 스택
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend**: Next.js 16, React 19, TailwindCSS 4
+- **Backend**: Nest.js 10, TypeScript
+- **상태 관리**: React Hooks (useState, useEffect)
+
+## 📝 API 엔드포인트
+
+### 점수 등록
+```
+POST /api/score
+Body: { name: string, score: number, difficulty: "easy" | "medium" | "hard" }
+```
+
+### 랭킹 조회
+```
+GET /api/rank/:difficulty
+Response: [{ name: string, score: number }]
+```
+
+### 서버 초기화 (개발용)
+```
+DELETE /api/reset
+```
+
+## ✨ 주요 기능
+
+- ✅ 홈 화면 (이름 입력, 난이도 선택)
+- ✅ 게임 화면 (곤충 클릭, 점수 계산)
+- ✅ 실시간 타이머
+- ✅ 난이도별 속도 및 확률 조정
+- ✅ 점수 저장 및 랭킹 표시
+- ✅ 서버 메모리 기반 랭킹 시스템
+
+## 📄 PRD
+
+자세한 요구사항은 `prd.md` 파일을 참고하세요.
